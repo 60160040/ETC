@@ -1,53 +1,9 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
-float anglez = 0;
-int animateMode = 0;
-int spinz = 1;
+float anglez = 0;					//degree
+int animateMode = 0;				//'0' is stop, '1' is animate
 
-void setupView()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-5, 5, -5, 5, -10, 10);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(2, 2, 3, 0, 0, 0, 0, 1, 0);
-
-}
-
-void setupSideView()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-5, 5, -5, 5, -10, 10);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
-
-}
-
-void setupFrontView()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-5, 5, -8, 5, -10, 10);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(4, 0, 0, 0, 2, 0, 0, 1, 0);
-
-}
-
-void setupTopView()
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-5, 5, -5, 5, -10, 10);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0, 4, 0, 0, 0, 0, 0, 0, -1);
-
-}
 
 void setupWindowView()
 {
@@ -56,20 +12,20 @@ void setupWindowView()
 	gluOrtho2D(-5, 5, -5, 5);
 }
 
-void drawLines()
+void drawLines()					//crate bord
 {
-	glBegin(GL_LINES);
+	glBegin(GL_LINES);				//horizontal line
 	glVertex2f(-5, 0);
 	glVertex2f(5, 0);
 	glEnd();
 
-	glBegin(GL_LINES);
+	glBegin(GL_LINES);				//Vertical line
 	glVertex2f(0, 5);
 	glVertex2f(0, -5);
 	glEnd();
 }
 
-void teapot()
+void teapot()							//Just test
 {
 	//glutWireTeapot(1.0);
 	//glutWireCone(5.0,5.0,20,10);
@@ -83,76 +39,132 @@ void teapot()
 void weel()
 {
 	//glClear(GL_COLOR_BUFFER_BIT);
-	glColor3ub(255, 0,0);
+	glColor3ub(255, 0, 0);				//Red color
 
-	glVertex3f(0.0, 0.0, -1.5);
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(2.0, 2.0, 0.0);
+
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(2.0, -2.0, 0.0);
+
+
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(-2.0, -2.0, 0.0);
+
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(-2.0, 2.0, 0.0);
 	//glutWireCube(4.0);
+	glEnd();
 }
 
 void skyLift()
 {
-	glRotatef(-anglez, 0, 0, 1);
+	glRotatef(-anglez, 0, 0, 1);		//try comment this
 	glColor3ub(255, 255, 255);
 	glutWireCube(2.0);
 }
 
 void stand()
 {
-	glPointSize(10);
+	glPointSize(1);
 
 	glBegin(GL_LINE_LOOP);
 	glColor3ub(255, 255, 0);
-	glVertex3f(0.0, 0.0,-1.5);
-	glVertex3f(1.0,-4.0, -1.5);
+	glVertex3f(0.0, 0.0, -1.5);
+	glVertex3f(1.0, -4.0, -1.5);
 	glVertex3f(-1.0, -4.0, -1.5);
 	glVertex3f(0.0, 0.0, -1.5);
-	
+
 	glVertex3f(0.0, 0.0, 1.5);
 
 	glVertex3f(1.0, -4.0, 1.5);
 	glVertex3f(-1.0, -4.0, 1.5);
 	glVertex3f(0.0, 0.0, 1.5);
-	
-	
+
+
 	glEnd();
 }
 
 void all()
-{	
+{
 	glPushMatrix();
-		glRotatef(anglez, 0, 0, 1);
+	glRotatef(anglez, 0, 0, 1);		//For rotate Ferris wheel
 
-		glPushMatrix();
-		glScalef(1, 1, 0.2);
-		weel();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslatef(2, 2, 0);
-		skyLift();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslatef(2, -2, 0);
-		skyLift();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslatef(-2, -2, 0);
-		skyLift();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslatef(-2, 2, 0);
-		skyLift();
-		glPopMatrix();
+	glPushMatrix();
+	//glScalef(1, 1, 0.2);
+	weel();
 	glPopMatrix();
 
 	glPushMatrix();
-	stand();
+	glTranslatef(2, 2, 0);
+	skyLift();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2, -2, 0);
+	skyLift();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2, -2, 0);
+	skyLift();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2, 2, 0);
+	skyLift();
+	glPopMatrix();
+	glPopMatrix();
+
+	glPushMatrix();
+	stand();						//crate stand
 	glPopMatrix();
 
 	glFlush();
+}
+
+void setupTopView()								//Top left
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-5, 5, -5, 5, -10, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 4, 0, 0, 0, 0, 0, 0, -1);
+
+}
+
+void setupFrontView()							//Top right
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-5, 5, -8, 5, -10, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(4, 0, 0, 0, 2, 0, 0, 1, 0);
+}
+
+void setupSideView()							//Bottom left
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-5, 5, -5, 5, -10, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
+
+}
+
+void setupView()								//Bottom right
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-5, 5, -5, 5, -10, 10);				//field of show of the object
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(2, 2, 3, 0, 0, 0, 0, 1, 0);		//(Ax,Ay,Az,Bx,By,Bz,Cx,Cy,Cz)  A is Camera, B is Aim
+
 }
 
 void display()
@@ -160,23 +172,23 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	setupWindowView();
-	drawLines();
+	drawLines();					//crate bord
 
 	glViewport(0, 0, 150, 150);
-	setupSideView();				//down Left
+	setupSideView();				//Set Bottom Left
 	all();
 
 	glViewport(150, 0, 150, 150);
 	setupView();
-	all();						//down Right
+	all();							//Set Bottom Right
 
 	glViewport(150, 150, 150, 150);
 	setupFrontView();
-	all();						//up right
+	all();							//Set Top right
 
 	glViewport(0, 150, 150, 150);
 	setupTopView();
-	all();						//up Left
+	all();							//Set Top Left
 
 	glFlush();
 }
@@ -184,9 +196,9 @@ void display()
 void animate1() {
 	printf("Animate");
 
-	anglez = anglez + 0.05;
+	anglez = anglez + 0.05;				//increass degrees
 
-	glutPostRedisplay();
+	glutPostRedisplay();				// Re-display
 
 }
 
@@ -198,29 +210,31 @@ void keyboard(unsigned char key, int x, int y)
 
 	switch (key) {
 	case 'r':
-	case 'R':
-		glutIdleFunc(animate1);			//On
+	case 'R':							//Star animate
+		glutIdleFunc(animate1);
 		animateMode = 1;
 		break;
 
 	case 's':
-	case 'S':
+	case 'S':							//Stop animate
 		animateMode = 0;
-		glutIdleFunc(NULL);				//Off
+		glutIdleFunc(NULL);
 		break;
 
-		glClear(GL_COLOR_BUFFER_BIT);
-		glutPostRedisplay();
+		//glClear(GL_COLOR_BUFFER_BIT);
+		//glutPostRedisplay();
 
 	}
 }
 
 int main(int argc, char** argv)
 {
-	glutCreateWindow("Final");
-	glutDisplayFunc(display);
-	glutKeyboardFunc(keyboard);
-	drawLines();
+	glutCreateWindow("Final");			//name window
+	printf("'R' to animate/n");
+	printf("'S' to stop/n");
 
+	glutDisplayFunc(display);
+	drawLines();					//create bord
+	glutKeyboardFunc(keyboard);			//use keybord
 	glutMainLoop();
 }
